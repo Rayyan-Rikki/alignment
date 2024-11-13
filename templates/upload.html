@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AB1 to Reference Sequence Alignment Tool</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .flash {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AB1 to Reference Sequence Alignment Tool</h1>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="ab1_file">AB1 File:</label>
+            <input type="file" name="ab1_file" id="ab1_file" accept=".ab1" required>
+            <small>Upload your AB1 file here. Only .ab1 files are accepted.</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="reference_file">Reference Sequence File:</label>
+            <input type="file" name="reference_file" id="reference_file" accept=".fasta,.fa" required>
+            <small>Upload your reference sequence file here. Accepted formats: .fasta, .fa</small>
+        </div>
+        
+        <div class="form-group">
+            <input type="submit" value="Align Sequences">
+        </div>
+    </form>
+    
+    <script>
+        // Optional: Add client-side file type validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            var ab1File = document.getElementById('ab1_file').files[0];
+            var refFile = document.getElementById('reference_file').files[0];
+            
+            if (!ab1File || !ab1File.name.toLowerCase().endsWith('.ab1')) {
+                alert('Please select a valid AB1 file.');
+                e.preventDefault();
+                return;
+            }
+            
+            if (!refFile || !(refFile.name.toLowerCase().endsWith('.fasta') || refFile.name.toLowerCase().endsWith('.fa'))) {
+                alert('Please select a valid reference sequence file (FASTA format).');
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+</body>
+</html>
