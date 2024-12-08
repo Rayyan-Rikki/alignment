@@ -1,0 +1,47 @@
+Ref sequence  - CCCCCAGGACTTCTTGGACCAAACAGTTAAAAACAAAAAGTTCATACTTTTCTAAACAAA
+Ab1 Sequence  - ---------------------------------CWWRRAG--------------------
+Conservation  -                                  *    **                    
+
+Ref sequence  - GATAATTATATAATTCAGAAAGCAAAAAGTCCATGCTGGGATGATCAAGTAGAGTGCTGA
+Ab1 Sequence  - -----------------------------------------------------GTSCTGA
+Conservation  -                                                      ** ****
+
+Ref sequence  - GATCATGAAAATGCATCCTATTTGTCTAAAAAGG-GAGGCAATTGGCCATGGAAAACGTA
+Ab1 Sequence  - GATCATGAWWATGCATCCTATTTGTCTAAAAWGGAGAGGSRRTTGGCCATGGAAAACGTA
+Conservation  - ********  ********************* ** ****   ******************
+
+Ref sequence  - ACATTGTACCTTTGAAGAAAGGCTTTCCATTTGTAATTTCTTTTGTGGCAAATCCGGGTC
+Ab1 Sequence  - ACATTGTACCTTTGAAGAAAGGCTTTCCATTTGTAATTTCTTTTGTGGCAAATCCGGGTC
+Conservation  - ************************************************************
+
+Ref sequence  - CTCTCGGACACAGCTCCTCGTACTCAGGAGTATTTCTCATGGGACACTCCTCGCATTCCT
+Ab1 Sequence  - CTCTCGGACACAGCTCCTCGTACTCAGGAGTATTTCTCATGGGACACTCCTCGCATTCCT
+Conservation  - ************************************************************
+
+Ref sequence  - CAGTACCCCAGGCTGCCCCGACGGAGCAGCAGCAGGCGTCCATGCGGTGGCGGCCAGCAA
+Ab1 Sequence  - CAGTACCCCAGGCTGCCCCGACGGAGCAGCAGCAGGCGTCCATGCGGTGGCGGCCAGCAA
+Conservation  - ************************************************************
+
+Ref sequence  - TAGGCAGGGTGCACTCCTCGTCCTCGTACCTCAGGAAGCAGGTTTCCAGGCGGATATCTG
+Ab1 Sequence  - TAGGCAGGGTGCACTCCTCGTCCTCGTACCTCAGGAAGCAGGTTTCCAGGCGGATATCTG
+Conservation  - ************************************************************
+
+Ref sequence  - TCAGAGGGAATCAAGGGAGGTTAAATAGAGCCACACGGCTTCCACTGCCCCAAACTGCCA
+Ab1 Sequence  - TCAGAGGGAATCAAGGGAGGTTAAATAGAGCCACACGGCTTCCACTGCCCCAAACTGCCA
+Conservation  - ************************************************************
+
+Ref sequence  - ACACTCTGTTAGGTAAAATACTGCACACATAATAATTTGCTGTATACTTATTGACTGGAA
+Ab1 Sequence  - ACACTCTGTTAGGTAAAATACTGCACACATAATRATTTGCTGTATACTTATTGACTGGAA
+Conservation  - ********************************* **************************
+
+Ref sequence  - TTAGTTTTATTCCTCAAAAAAAACCCCAGGCTCTGGGGTAAGTATCCTTGCCTAATAAAG
+Ab1 Sequence  - TTAGTTTTATTCCTCAAAAAAAA-CCCARG----GG------------------------
+Conservation  - *********************** **** *    **                        
+
+Ref sequence  - ACTCTCTTTGTCAGCCCATGTTTGCACCTCCTACTTCTGAAAAGTTCCCTTTCAACATCT
+Ab1 Sequence  - -CTCT-------------------------------------------------------
+Conservation  -  ****                                                       
+
+Ref sequence  - GATAATTCTACATAAGGAATGGTATTCTGA
+Ab1 Sequence  - ---------------GGAA----------A
+Conservation  -                ****          *

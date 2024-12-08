@@ -1,7 +1,5 @@
-from flask import Flask, render_template, request, send_file, flash, redirect, url_for, send_from_directory, render_template_string
+from flask import Flask, render_template, request, flash, redirect, url_for, send_from_directory
 from Bio import SeqIO, pairwise2
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
 import os
 from werkzeug.utils import secure_filename
 from PIL import Image, ImageDraw, ImageFont
@@ -53,25 +51,18 @@ if not os.path.exists(os.path.join(STATIC_FOLDER, 'favicon.ico')):
 def format_alignment(ref_seq, ab1_seq, alignment):
     aligned_ref = alignment[0]
     aligned_ab1 = alignment[1]
-    
     result = ""
     line_width = 60
-    
     for i in range(0, len(aligned_ref), line_width):
         ref_line = aligned_ref[i:i+line_width]
         ab1_line = aligned_ab1[i:i+line_width]
-        
-        # Create conservation line
         conservation = ''.join(['*' if r == a and r != '-' else ' ' for r, a in zip(ref_line, ab1_line)])
-        
         result += f"Ref sequence  - {ref_line}\n"
         result += f"Ab1 Sequence  - {ab1_line}\n"
         result += f"Conservation  - {conservation}\n\n"
-    
     return result.strip()
 
 def resolve_ambiguity(base1, base2):
-    """Check if two bases match, including handling IUPAC ambiguous codes."""
     if base1 == base2:
         return True
     if base1 in IUPAC_CODES and base2 in IUPAC_CODES[base1]:
@@ -83,7 +74,6 @@ def resolve_ambiguity(base1, base2):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        # Check if both files are present in the request
         if 'ab1_file' not in request.files or 'reference_file' not in request.files:
             flash('Both AB1 and reference files are required')
             return redirect(request.url)
@@ -91,13 +81,11 @@ def upload_file():
         ab1_file = request.files['ab1_file']
         reference_file = request.files['reference_file']
         
-        # Check if filenames are empty
         if ab1_file.filename == '' or reference_file.filename == '':
             flash('No selected file')
             return redirect(request.url)
         
         if ab1_file and reference_file and allowed_file(ab1_file.filename) and allowed_file(reference_file.filename):
-            # Save uploaded files
             ab1_filename = secure_filename(ab1_file.filename)
             ref_filename = secure_filename(reference_file.filename)
             ab1_path = os.path.join(app.config['UPLOAD_FOLDER'], ab1_filename)
@@ -106,54 +94,42 @@ def upload_file():
             reference_file.save(ref_path)
             
             try:
-                # Process the AB1 file
                 ab1_record = SeqIO.read(ab1_path, "abi")
                 ab1_seq = str(ab1_record.seq)
-                
-                # Process the reference file
                 ref_record = SeqIO.read(ref_path, "fasta")
                 ref_seq = str(ref_record.seq)
-                
-                # Perform pairwise alignment
                 alignments = pairwise2.align.globalcs(
                     ref_seq, ab1_seq,
-                    lambda x, y: 2 if resolve_ambiguity(x, y) else -1,  # Match score if bases align
-                    -0.5,  # Gap opening penalty
-                    -0.1   # Gap extension penalty
+                    lambda x, y: 2 if resolve_ambiguity(x, y) else -1,
+                    -0.5,
+                    -0.1
                 )
                 best_alignment = alignments[0]
-                
-                # Format the alignment
                 alignment_result = format_alignment(ref_seq, ab1_seq, best_alignment)
-                
-                # Save the alignment result
-                result_filename = 'alignment_result.txt'
+                result_filename = f'alignment_result_{os.path.splitext(ab1_filename)[0]}.txt'
                 result_path = os.path.join(app.config['RESULTS_FOLDER'], result_filename)
                 with open(result_path, 'w') as f:
                     f.write(alignment_result)
-                
-                # Redirect to the result page with the alignment result
-                return redirect(url_for('result', alignment_result=alignment_result))
-            
+                return redirect(url_for('result', result_file=result_filename))
             except Exception as e:
-                flash(f'An error occurred: {str(e)}')
+                flash(f'An error occurred during processing: {str(e)}')
                 return redirect(request.url)
         else:
             flash('Invalid file type. Allowed file types are: .ab1, .fasta, .fa')
             return redirect(request.url)
-    
     return render_template('upload.html')
+
+@app.route('/result/<result_file>')
+def result(result_file):
+    result_path = os.path.join(app.config['RESULTS_FOLDER'], result_file)
+    with open(result_path, 'r') as f:
+        alignment_result = f.read()
+    return render_template('result.html', alignment_result=alignment_result)
 
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-# New route for displaying results
-@app.route('/result')
-def result():
-    alignment_result = request.args.get('alignment_result', None)  # Get the alignment result from the query parameter
-    return render_template('result.html', alignment_result=alignment_result)  # Pass the result to the template
 
 if __name__ == '__main__':
     app.run(debug=True)
